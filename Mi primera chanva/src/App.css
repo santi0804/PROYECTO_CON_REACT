@@ -1,3 +1,5 @@
+/* App.css */
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -6,17 +8,65 @@
 }
 
 .logo {
-  height: 6em;
+  height: 10em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em #02020eaa);
 }
+
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2em #e8ececaa);
 }
+
+
+.container {
+  padding: 0em;
+}
+
+.registro {
+  margin-bottom: 2em;
+}
+
+label {
+  margin-right: 0em;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: rgb(12, 3, 3);
+  border: visibility;
+  border-radius: 5px;
+  cursor: pointer;  
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.read-the-docs {
+  color: #8d8888;
+}
+
+.inputCedula{
+    font-size: 2em;
+    font-weight: bold;  
+}
+
+.inputPlacas{
+    font-size: 2em;
+    font-weight: bold;  
+}
+
+.inputMarca{
+  font-size: 2em;
+  font-weight: bold;  
+}
+
 
 @keyframes logo-spin {
   from {
@@ -28,15 +78,7 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  .logo.react {
+    animation: logo-spin infinite 0s linear; /* Ajusta el tiempo de animación según sea necesario */
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }

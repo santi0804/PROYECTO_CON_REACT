@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 
 function Parqueo1() {
 
-    const [text, setText] = useState('');
+    const [text, setText] = useState('');           // estos son los estados
     const [updated, setUpdated] = useState('');
 
 
@@ -23,6 +23,7 @@ function Parqueo1() {
             <button onClick={buttonOnClick}> Registrar vehiculo</button>
             <p>Placas:{text}</p>
             <p>Cedula:{updated}</p>
+
         </div>
     )
 }
