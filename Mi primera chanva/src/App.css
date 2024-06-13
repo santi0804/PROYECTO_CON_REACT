@@ -32,7 +32,7 @@
 }
 
 label {
-  margin-right: 0em;
+  margin-right: 1em;
 }
 
 button {
@@ -52,19 +52,27 @@ button:hover {
   color: #8d8888;
 }
 
-.inputCedula{
-    font-size: 2em;
-    font-weight: bold;  
+.container2 {
+  display: grid;
+  grid-template-columns: auto 1fr; /* Define dos columnas, una para etiquetas y otra para inputs */
+  gap: 15px; /* Espacio entre las filas */
+  align-items: center; /* Alinea verticalmente los elementos */
 }
 
-.inputPlacas{
-    font-size: 2em;
-    font-weight: bold;  
-}
-
-.inputMarca{
+.container2 label {
+  justify-self: start; /* Alinea las etiquetas a la derecha de la columna */
   font-size: 2em;
-  font-weight: bold;  
+  font-weight: bold;
+}
+.inputCedula,
+.inputNombre,
+.inputMarca,
+.inputValor,
+.inputMes,
+.inputFecha {
+  font-size: 2em;
+  font-weight: bold;
+  width: 100%; /* Asegura que los inputs ocupen todo el espacio disponible en la columna */
 }
 
 
