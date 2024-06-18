@@ -1,18 +1,59 @@
 
 
-try {
-    const response = await fetch('http://localhost:8080/rutageneral/registro', {
-      method: 'POST',
+export async function obtenerConsulta() {
+  try {
+    const response = await fetch("http://localhost:8080/rutageneral/productos", {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        // aquí va la lógica del token o cookie si es necesario
       },
-      body: JSON.stringify(data),
     });
 
-    const result = await response.json();
-    setUpdated(`- ${id_producto}, - ${nombre_p}, - ${referencia_p}, - ${valor_p}, - ${mes_de_consumo}, - ${fecha}`);
-    console.log(result);
+    if (!response.ok) {
+      throw new Error('Error al obtener los puntos de venta');
+    }
+    const data = await response.json();
+    return data;
   } catch (error) {
-    console.error('Error al enviar datos:', error);
+    console.error('Error al obtener los puntos de venta:', error.message);
+    throw error;
+
   }
-};
+}
+
+
+
+export async function ObtenerRegistros(id_producto, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo) {
+  const url = 'http://localhost:8080/rutageneral/registro';
+  const data = {
+    id_producto: id_producto,
+    nombre_p: nombre_p,
+    referencia_p: referencia_p,
+    valor_p: valor_p,
+    fecha_p: fecha_p,
+    mes_De_Consumo: mes_De_Consumo
+  }
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error en la solicitud: ${response.statusText}`)
+    }
+
+  
+  const result = await response.json();
+  console.log('Registro exitoso:', result);
+
+}   catch (error){
+  console.error('Error:', error);
+}
+
+}
