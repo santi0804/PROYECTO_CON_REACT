@@ -1,5 +1,4 @@
 
-
 export async function obtenerConsulta() {    // Boton Endpoint Consultar //
   try {
     const response = await fetch("http://localhost:8080/rutageneral/productos", {
@@ -22,17 +21,17 @@ export async function obtenerConsulta() {    // Boton Endpoint Consultar //
   }
 }
 
-                                                     // Boton Endpoint registrar //
+// Boton Endpoint registrar //
 
 export async function ObtenerRegistros(id_producto, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo) {
   const url = 'http://localhost:8080/rutageneral/registro';
   const data = {
-    id_producto: id_producto,
-    nombre_p: nombre_p,
-    referencia_p: referencia_p,
-    valor_p: valor_p,
-    fecha_p: fecha_p,
-    mes_De_Consumo: mes_De_Consumo
+    id_producto,
+    nombre_p,
+    referencia_p,
+    valor_p,
+    fecha_p,
+    mes_De_Consumo
   }
 
   try {
@@ -45,15 +44,38 @@ export async function ObtenerRegistros(id_producto, nombre_p, referencia_p, valo
     });
 
     if (!response.ok) {
-      throw new Error(`Error en la solicitud: ${response.statusText}`)
+      throw new Error(`Error en la solicitud: ${response.statusText}`);
     }
 
-  
-  const result = await response.json();
-  console.log('Registro exitoso:', result);
 
-}   catch (error){
-  console.error('Error:', error);
+    const result = await response.json();
+    console.log('Registro exitoso:', result);
+    return result;
+
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+
 }
 
+export async function fetchRegistros() {
+  try {
+    const response = await fetch("http://localhost:8080/rutageneral/productos", {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al obtener los registros');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error al obtener los registros:', error.message);
+    throw error;
+  }
 }
