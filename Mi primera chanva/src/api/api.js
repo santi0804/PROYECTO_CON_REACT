@@ -1,6 +1,6 @@
 
 
-export async function obtenerConsulta() {
+export async function obtenerConsulta() {    // Boton Endpoint Consultar //
   try {
     const response = await fetch("http://localhost:8080/rutageneral/productos", {
       method: 'GET',
@@ -22,7 +22,7 @@ export async function obtenerConsulta() {
   }
 }
 
-
+                                                     // Boton Endpoint registrar //
 
 export async function ObtenerRegistros(id_producto, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo) {
   const url = 'http://localhost:8080/rutageneral/registro';

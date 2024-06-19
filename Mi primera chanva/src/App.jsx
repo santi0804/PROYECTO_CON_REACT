@@ -76,12 +76,12 @@ const handleClickRegistrar = async()  => {
         </div>
 
         <br />
+
         <div className="card">
           <button type="button" onClick={handleClick}>CONSULTAR</button>
           <button type="button" onClick={handleClickRegistrar}>REGISTRAR</button>
-
         </div>
-      </div>
+       </div>
 
       <p className="read-the-docs">{updated}</p>
     </div>
