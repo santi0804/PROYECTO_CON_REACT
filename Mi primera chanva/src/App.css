@@ -86,3 +86,23 @@ label {
     animation: logo-spin infinite 0s linear; /* Ajusta el tiempo de animación según sea necesario */
   }
 }
+
+table {
+  width: 100%;
+  margin-top: 30px;
+  
+}
+
+th, td {
+  text-align: center;
+  padding: 5px;
+  border: 1px solid black;
+}
+
+th {
+  background-color: #ecf4f5f6;
+}
+
+tr:nth-child(even) {
+  background-color:white;
+}

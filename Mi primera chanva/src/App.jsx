@@ -13,6 +13,8 @@ function App() {
   const [mes_de_consumo, setMesConsumo] = useState('');
   const [fecha_p, setFecha] = useState('');
   const [registros, setRegistros] = useState([]);
+  const [mostrarTabla, setMostrarTabla] = useState(false);
+
 
   const handleChange1 = (event) => setProducto(event.target.value);
   const handleChange2 = (event) => setNombre(event.target.value);
@@ -54,6 +56,11 @@ function App() {
 
     fetchData();
   }, []);
+
+  const handleToggleTabla = () => {
+    setMostrarTabla(prevMostrarTabla => !prevMostrarTabla);
+  };
+
 
 
   return (
@@ -105,35 +112,40 @@ function App() {
         <div className="card">
           <button type="button" onClick={handleClick}>CONSULTAR</button>
           <button type="button" onClick={handleClickRegistrar}>REGISTRAR</button>
+          <button type="button" onClick={handleToggleTabla}>
+            {mostrarTabla ? 'Ocultar Tabla' : 'Mostrar Tabla'}</button>
         </div>
       </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Referencia</th>
-            <th>Valor $</th>
-            <th>Mes de Consumo</th>
-            <th>Fecha</th>
-          </tr>
-        </thead>
-        <tbody>
-          {registros.map((registro, index) => (
-            <tr key={index}>
-              <td>{registro.id_producto}</td>
-              <td>{registro.nombre_p}</td>
-              <td>{registro.referencia_p}</td>
-              <td>{registro.valor_p}</td>
-              <td>{registro.mes_De_Consumo}</td>
-              <td>{registro.fecha_p}</td>
+      {mostrarTabla && (
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Referencia</th>
+              <th>Valor $</th>
+              <th>Mes de Consumo</th>
+              <th>Fecha</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {registros.map((registro, index) => (
+              <tr key={index}>
+                <td>{registro.id_producto}</td>
+                <td>{registro.nombre_p}</td>
+                <td>{registro.referencia_p}</td>
+                <td>{registro.valor_p}</td>
+                <td>{registro.mes_De_Consumo}</td>
+                <td>{registro.fecha_p}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
+
 
 export default App;

@@ -59,6 +59,7 @@ export async function ObtenerRegistros(id_producto, nombre_p, referencia_p, valo
 
 }
 
+
 export async function fetchRegistros() {
   try {
     const response = await fetch("http://localhost:8080/rutageneral/productos", {
