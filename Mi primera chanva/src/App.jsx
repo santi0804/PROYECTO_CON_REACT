@@ -1,9 +1,7 @@
-
-
 import React, { useState, useEffect } from 'react';
 import reactLogo from './assets/react.svg';
 import { obtenerConsulta, ObtenerRegistros, fetchRegistros } from './api/api';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import './App.css';
 
 function App() {
@@ -17,46 +15,63 @@ function App() {
   const [mostrarTabla, setMostrarTabla] = useState(false);
   const [errors, setErrors] = useState({});
 
-
-  const handleChange1 = (event) => setProducto(event.target.value);
-  const handleChange2 = (event) => setNombre(event.target.value);
-  const handleChange3 = (event) => setReferencia(event.target.value);
-  const handleChange4 = (event) => setValor(event.target.value);
-  const handleChange5 = (event) => setMesConsumo(event.target.value);
-  const handleChange6 = (event) => setFecha(event.target.value);
+  const handleChange1 = (event) => {
+    setProducto(event.target.value);
+    setErrors((prevErrors) => ({ ...prevErrors, id_producto: '' }));
+  };
+  const handleChange2 = (event) => {
+    setNombre(event.target.value);
+    setErrors((prevErrors) => ({ ...prevErrors, nombre_p: '' }));
+  };
+  const handleChange3 = (event) => {
+    setReferencia(event.target.value);
+    setErrors((prevErrors) => ({ ...prevErrors, referencia_p: '' }));
+  };
+  const handleChange4 = (event) => {
+    setValor(event.target.value);
+    setErrors((prevErrors) => ({ ...prevErrors, valor_p: '' }));
+  };
+  const handleChange5 = (event) => {
+    setMesConsumo(event.target.value);
+    setErrors((prevErrors) => ({ ...prevErrors, mes_de_consumo: '' }));
+  };
+  const handleChange6 = (event) => {
+    setFecha(event.target.value);
+    setErrors((prevErrors) => ({ ...prevErrors, fecha_p: '' }));
+  };
 
   const validarFormato = () => {
     let formErrors = {};
-    if (!id_producto) formErrors.id_producto = "Campo obligtario";
-    if (!nombre_p) formErrors.nombre_p = "Campo obligtario";
-    if (!referencia_p) formErrors.referencia_p = "Campo obligtario";
-    if (!valor_p) formErrors.valor_p = "Campo obligtario";
-    if (!mes_de_consumo) formErrors.mes_de_consumo = "Campo obligtario";
-    if (!fecha_p) formErrors.fecha_p = "Campo obligtario";
+    if (!id_producto) formErrors.id_producto = "ID es obligatorio";
+    if (!nombre_p) formErrors.nombre_p = "Nombre es obligatorio";
+    if (!referencia_p) formErrors.referencia_p = "Referencia es obligatoria";
+    if (!valor_p) formErrors.valor_p = "Valor es obligatorio";
+    if (!mes_de_consumo) formErrors.mes_de_consumo = "Mes es obligatorio";
+    if (!fecha_p) formErrors.fecha_p = "Fecha es obligatoria";
     setErrors(formErrors);
 
     if (Object.keys(formErrors).length > 0) {
       Swal.fire({
         icon: 'error',
-        title: 'Error de validacion',
-        text: 'Por favor complete los campos obligatorios',
+        title: 'Error de Validación',
+        text: 'Por favor, complete todos los campos obligatorios',
       });
     }
+
     return Object.keys(formErrors).length === 0;
-  }
-
-
-  const handleClick = async () => {
-    try {
-      const data = await obtenerConsulta();
-      console.log(data);
-      setRegistros(data);
-      setMostrarTabla(true);
-    } catch (error) {
-      console.error('Error no es la consulta', error);
-    }
   };
 
+  const handleClick = async () => {
+      try {
+        const data = await obtenerConsulta();
+        console.log(data);
+        setRegistros(data);
+        setMostrarTabla(true);
+      } catch (error) {
+        console.error('Error en la consulta', error);
+      }
+    
+  };
 
   const handleClickRegistrar = async () => {
     if (validarFormato()) {
@@ -67,20 +82,18 @@ function App() {
         Swal.fire({
           icon: 'success',
           title: 'Registro Exitoso',
-          text: 'Registro éxito',
+          text: 'El registro se realizó con éxito',
         });
       } catch (error) {
         console.error('Error al registrar', error);
         Swal.fire({
           icon: 'error',
           title: 'Error al Registrar',
-          text: 'Problemas al registrar',
+          text: 'Hubo un problema al realizar el registro',
         });
       }
     }
   };
-
-  // Boton consultar tablas //
 
   useEffect(() => {
     const fetchData = async () => {
@@ -95,12 +108,7 @@ function App() {
     fetchData();
   }, []);
 
-
-  // Ordenar los registros de manera descendente por id_producto
-
   const registrosOrdenados = [...registros].sort((a, b) => a.id_producto - b.id_producto);
-
-
 
   return (
     <div id="root">
@@ -118,31 +126,37 @@ function App() {
           <div className="registro">
             <label htmlFor="cedula" className="labelCedula">ID: </label>
             <input className="inputCedula" type="number" id="cedula" value={id_producto} onChange={handleChange1} />
+            {errors.id_producto && <p className="error">{errors.id_producto}</p>}
           </div>
 
           <div className="registro">
             <label htmlFor="placa" className='LabelNombre'>NOMBRE: </label>
             <input className='inputNombre' type="text" id="nombre" value={nombre_p} onChange={handleChange2} />
+            {errors.nombre_p && <p className="error">{errors.nombre_p}</p>}
           </div>
 
           <div className="registro">
             <label htmlFor="marca" className='labelMarca'>MARCA:</label>
             <input className='inputMarca' type="text" id="marca" value={referencia_p} onChange={handleChange3} />
+            {errors.referencia_p && <p className="error">{errors.referencia_p}</p>}
           </div>
 
           <div className="registro">
             <label htmlFor="marca" className='labelValor'>VALOR:</label>
             <input className='inputValor' type="number" id="valor" value={valor_p} onChange={handleChange4} />
+            {errors.valor_p && <p className="error">{errors.valor_p}</p>}
           </div>
 
           <div className="registro">
             <label htmlFor="marca" className='labelMes'>MES:</label>
             <input className='inputMes' type="text" id="mes" value={mes_de_consumo} onChange={handleChange5} />
+            {errors.mes_de_consumo && <p className="error">{errors.mes_de_consumo}</p>}
           </div>
 
           <div className="registro">
             <label htmlFor="marca" className='labelFecha'>FECHA:</label>
             <input className='inputFecha' type="datetime-local" id="fecha" value={fecha_p} onChange={handleChange6} />
+            {errors.fecha_p && <p className="error">{errors.fecha_p}</p>}
           </div>
         </div>
 
@@ -183,6 +197,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
