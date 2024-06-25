@@ -1,5 +1,8 @@
 
-export async function obtenerConsulta() {    // Boton Endpoint Consultar //
+
+// Boton Endpoint Consultar //
+
+export async function obtenerConsulta() { 
   try {
     const response = await fetch("http://localhost:8080/rutageneral/productos", {
       method: 'GET',
@@ -47,7 +50,6 @@ export async function ObtenerRegistros(id_producto, nombre_p, referencia_p, valo
       throw new Error(`Error en la solicitud: ${response.statusText}`);
     }
 
-
     const result = await response.json();
     console.log('Registro exitoso:', result);
     return result;
@@ -59,6 +61,8 @@ export async function ObtenerRegistros(id_producto, nombre_p, referencia_p, valo
 
 }
 
+
+// Boton Endpoint/ consultar tabla //
 
 export async function fetchRegistros() {
   try {
