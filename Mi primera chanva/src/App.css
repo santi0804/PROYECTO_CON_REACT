@@ -109,3 +109,8 @@ th {
 tr:nth-child(even) {
   background-color:white;
 }
+
+.edit-icon{
+  cursor: pointer;
+  color: rgb(109, 194, 88);
+}

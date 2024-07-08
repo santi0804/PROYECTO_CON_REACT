@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import reactLogo from './assets/react.svg';
+import { FaEdit } from 'react-icons/fa';
 import { obtenerConsulta, ObtenerRegistros, fetchRegistros, actualizarDatos } from './api/api';
 import Swal from 'sweetalert2';
 import './App.css';
@@ -9,14 +9,16 @@ function App() {
   const [nombre_p, setNombre] = useState('');
   const [referencia_p, setReferencia] = useState('');
   const [valor_p, setValor] = useState('');
-  const [mes_de_consumo, setMesConsumo] = useState('');
+  const [mes_De_Consumo, setMesConsumo] = useState('');
   const [fecha_p, setFecha] = useState('');
   const [registros, setRegistros] = useState([]);
   const [mostrarTabla, setMostrarTabla] = useState(false);
   const [errors, setErrors] = useState({});
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [registroSeleccionado, setRegistroSeleccionado] = useState(null);
 
-
-  const handleChange1 = (event) => {setProducto(event.target.value);
+  const handleChange1 = (event) => {
+    setProducto(event.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, id_producto: '' }));
   };
 
@@ -24,18 +26,24 @@ function App() {
     setNombre(event.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, nombre_p: '' }));
   };
+
   const handleChange3 = (event) => {
     setReferencia(event.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, referencia_p: '' }));
   };
+
   const handleChange4 = (event) => {
     setValor(event.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, valor_p: '' }));
   };
-  const handleChange5 = (event) => {setMesConsumo(event.target.value);
-    setErrors((prevErrors) => ({ ...prevErrors, mes_de_consumo: '' }));
+
+  const handleChange5 = (event) => {
+    setMesConsumo(event.target.value);
+    setErrors((prevErrors) => ({ ...prevErrors, mes_De_Consumo: '' }));
   };
-  const handleChange6 = (event) => {setFecha(event.target.value);
+
+  const handleChange6 = (event) => {
+    setFecha(event.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, fecha_p: '' }));
   };
 
@@ -45,7 +53,7 @@ function App() {
     if (!nombre_p) formErrors.nombre_p = "Nombre es obligatorio";
     if (!referencia_p) formErrors.referencia_p = "Referencia es obligatoria";
     if (!valor_p) formErrors.valor_p = "Valor es obligatorio";
-    if (!mes_de_consumo) formErrors.mes_de_consumo = "Mes es obligatorio";
+    if (!mes_De_Consumo) formErrors.mes_De_Consumo = "Mes es obligatorio";
     if (!fecha_p) formErrors.fecha_p = "Fecha es obligatoria";
     setErrors(formErrors);
 
@@ -60,23 +68,21 @@ function App() {
     return Object.keys(formErrors).length === 0;
   };
 
-
   const handleClick = async () => {
-      try {
-        const data = await obtenerConsulta();
-        console.log(data);
-        setRegistros(data);
-        setMostrarTabla(true);
-      } catch (error) {
-        console.error('Error en la consulta', error);
-      }
-    
+    try {
+      const data = await obtenerConsulta();
+      console.log(data);
+      setRegistros(data);
+      setMostrarTabla(true);
+    } catch (error) {
+      console.error('Error en la consulta', error);
+    }
   };
 
   const handleClickRegistrar = async () => {
     if (validarFormato()) {
       try {
-        await ObtenerRegistros(id_producto, nombre_p, referencia_p, valor_p, fecha_p, mes_de_consumo);
+        await ObtenerRegistros(id_producto, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo);
         const updatedRegistros = await fetchRegistros();
         setRegistros(updatedRegistros);
         Swal.fire({
@@ -95,32 +101,43 @@ function App() {
     }
   };
 
-  
-  // endpoint para actualizar datos//
-
-  const handleClickActualizar = async () =>{
-   if(validarFormato()){
-    try{
-      await actualizarDatos(id_producto, nombre_p, referencia_p, valor_p, fecha_p, mes_de_consumo);
-      const updatedRegistros = await fetchRegistros();
-      setRegistros(updatedRegistros);
-      Swal.fire({
-        icon: 'success',
-        title: 'Actualización Exitosa',
-        text: 'La actualización se realizó con éxito',
-      });
-
-    } catch (error) {
-      console.log('Error al actulizar', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error al Actualizar',
-        text: 'problema al actualizar',
-      });
+  const handleClickActualizar = async () => {
+    if (validarFormato()) {
+      try {
+        await actualizarDatos(id_producto, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo);
+        const updatedRegistros = await fetchRegistros();
+        setRegistros(updatedRegistros);
+        Swal.fire({
+          icon: 'success',
+          title: 'Actualización Exitosa',
+          text: 'Actualización con éxito',
+        });
+      } catch (error) {
+        console.log('Error al actualizar', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al Actualizar',
+          text: 'problema al actualizar',
+        });
+      }
     }
-  }
   };
 
+  const editarRegistro = (registro) => {
+    setRegistroSeleccionado(registro);
+    setProducto(registro.id_producto);
+    setNombre(registro.nombre_p);
+    setReferencia(registro.referencia_p);
+    setValor(registro.valor_p);
+    setMesConsumo(registro.mes_De_Consumo);
+    setFecha(registro.fecha_p);
+    setMostrarModal(true);
+  };
+
+  const cerrarModal = () => {
+    setMostrarModal(false);
+    setRegistroSeleccionado(null);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -135,9 +152,6 @@ function App() {
     fetchData();
   }, []);
 
-  
-
-    // para ordenar  de forma decendente//
   const registrosOrdenados = [...registros].sort((a, b) => a.id_producto - b.id_producto);
 
   return (
@@ -179,8 +193,8 @@ function App() {
 
           <div className="registro">
             <label htmlFor="marca" className='labelMes'>MES:</label>
-            <input className='inputMes' type="text" id="mes" value={mes_de_consumo} onChange={handleChange5} />
-            {errors.mes_de_consumo && <p className="error">{errors.mes_de_consumo}</p>}
+            <input className='inputMes' type="text" id="mes" value={mes_De_Consumo} onChange={handleChange5} />
+            {errors.mes_De_Consumo && <p className="error">{errors.mes_De_Consumo}</p>}
           </div>
 
           <div className="registro">
@@ -203,6 +217,7 @@ function App() {
         <table>
           <thead>
             <tr>
+              <th></th>
               <th>ID</th>
               <th>Nombre</th>
               <th>Referencia</th>
@@ -214,6 +229,9 @@ function App() {
           <tbody>
             {registrosOrdenados.map((registro, index) => (
               <tr key={index}>
+                <td>
+                  <FaEdit className="edit-icon" onClick={() => editarRegistro(registro)} />
+                </td>
                 <td>{registro.id_producto}</td>
                 <td>{registro.nombre_p}</td>
                 <td>{registro.referencia_p}</td>

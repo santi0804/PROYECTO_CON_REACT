@@ -1,7 +1,6 @@
 
 
-// Boton Endpoint Consultar //
-
+// Boton Endpoint Consultar
 export async function obtenerConsulta() {
   try {
     const response = await fetch("http://localhost:8080/rutageneral/productos", {
@@ -20,12 +19,10 @@ export async function obtenerConsulta() {
   } catch (error) {
     console.error('Error al obtener los puntos de venta:', error.message);
     throw error;
-
   }
 }
 
-// Boton Endpoint registrar //
-
+// Boton Endpoint registrar
 export async function ObtenerRegistros(id_producto, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo) {
   const url = 'http://localhost:8080/rutageneral/registro';
   const data = {
@@ -35,7 +32,7 @@ export async function ObtenerRegistros(id_producto, nombre_p, referencia_p, valo
     valor_p,
     fecha_p,
     mes_De_Consumo
-  }
+  };
 
   try {
     const response = await fetch(url, {
@@ -53,17 +50,13 @@ export async function ObtenerRegistros(id_producto, nombre_p, referencia_p, valo
     const result = await response.json();
     console.log('Registro exitoso:', result);
     return result;
-
   } catch (error) {
     console.error('Error:', error);
     throw error;
   }
-
 }
 
-
-// Boton Endpoint/ consultar tabla //
-
+// Boton Endpoint/ consultar tabla
 export async function fetchRegistros() {
   try {
     const response = await fetch("http://localhost:8080/rutageneral/productos", {
@@ -85,8 +78,7 @@ export async function fetchRegistros() {
   }
 }
 
-// Boton Endpoint/ para actualizar datos de la tabla //
-
+// Boton Endpoint/ para actualizar datos de la tabla
 export async function actualizarDatos(id_producto, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo) {
   const url = `http://localhost:8080/rutageneral/${id_producto}`;
   const data = {
@@ -113,12 +105,8 @@ export async function actualizarDatos(id_producto, nombre_p, referencia_p, valor
     const result = await response.json();
     console.log('Actualización exitosa:', result);
     return result;
-  }
-  catch (error) {
+  } catch (error) {
     console.log('Error', error);
     throw error;
   }
 }
-
-
-
