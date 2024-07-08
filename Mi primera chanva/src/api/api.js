@@ -2,7 +2,7 @@
 
 // Boton Endpoint Consultar //
 
-export async function obtenerConsulta() { 
+export async function obtenerConsulta() {
   try {
     const response = await fetch("http://localhost:8080/rutageneral/productos", {
       method: 'GET',
@@ -84,3 +84,41 @@ export async function fetchRegistros() {
     throw error;
   }
 }
+
+// Boton Endpoint/ para actualizar datos de la tabla //
+
+export async function actualizarDatos(id_producto, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo) {
+  const url = `http://localhost:8080/rutageneral/${id_producto}`;
+  const data = {
+    nombre_p,
+    referencia_p,
+    valor_p,
+    fecha_p,
+    mes_De_Consumo
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error en la solicitud: ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    console.log('Actualización exitosa:', result);
+    return result;
+  }
+  catch (error) {
+    console.log('Error', error);
+    throw error;
+  }
+}
+
+
+

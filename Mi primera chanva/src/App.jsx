@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import reactLogo from './assets/react.svg';
-import { obtenerConsulta, ObtenerRegistros, fetchRegistros } from './api/api';
+import { obtenerConsulta, ObtenerRegistros, fetchRegistros, actualizarDatos } from './api/api';
 import Swal from 'sweetalert2';
 import './App.css';
 
@@ -15,10 +15,11 @@ function App() {
   const [mostrarTabla, setMostrarTabla] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const handleChange1 = (event) => {
-    setProducto(event.target.value);
+
+  const handleChange1 = (event) => {setProducto(event.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, id_producto: '' }));
   };
+
   const handleChange2 = (event) => {
     setNombre(event.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, nombre_p: '' }));
@@ -31,12 +32,10 @@ function App() {
     setValor(event.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, valor_p: '' }));
   };
-  const handleChange5 = (event) => {
-    setMesConsumo(event.target.value);
+  const handleChange5 = (event) => {setMesConsumo(event.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, mes_de_consumo: '' }));
   };
-  const handleChange6 = (event) => {
-    setFecha(event.target.value);
+  const handleChange6 = (event) => {setFecha(event.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, fecha_p: '' }));
   };
 
@@ -60,6 +59,7 @@ function App() {
 
     return Object.keys(formErrors).length === 0;
   };
+
 
   const handleClick = async () => {
       try {
@@ -95,6 +95,33 @@ function App() {
     }
   };
 
+  
+  // endpoint para actualizar datos//
+
+  const handleClickActualizar = async () =>{
+   if(validarFormato()){
+    try{
+      await actualizarDatos(id_producto, nombre_p, referencia_p, valor_p, fecha_p, mes_de_consumo);
+      const updatedRegistros = await fetchRegistros();
+      setRegistros(updatedRegistros);
+      Swal.fire({
+        icon: 'success',
+        title: 'Actualización Exitosa',
+        text: 'La actualización se realizó con éxito',
+      });
+
+    } catch (error) {
+      console.log('Error al actulizar', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al Actualizar',
+        text: 'problema al actualizar',
+      });
+    }
+  }
+  };
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -108,6 +135,9 @@ function App() {
     fetchData();
   }, []);
 
+  
+
+    // para ordenar  de forma decendente//
   const registrosOrdenados = [...registros].sort((a, b) => a.id_producto - b.id_producto);
 
   return (
@@ -165,6 +195,7 @@ function App() {
         <div className="card">
           <button type="button" onClick={handleClick}>CONSULTAR</button>
           <button type="button" onClick={handleClickRegistrar}>REGISTRAR</button>
+          <button type="button" onClick={handleClickActualizar}>ACTUALIZAR</button>
         </div>
       </div>
 
