@@ -163,109 +163,110 @@ function App() {
       });
     }
 
+  };
+
+  const editarRegistro = (registro) => {
+    setRegistroSeleccionado(registro);
+    setProducto(registro.id_producto);
+    setNombre(registro.nombre_p);
+    setReferencia(registro.referencia_p);
+    setValor(registro.valor_p);
+    setMesConsumo(registro.mes_De_Consumo);
+    setFecha(registro.fecha_p);
+    setMostrarModal(true);
+  };
+
+  const cerrarModal = () => {
+    setMostrarModal(true);
+    setRegistroSeleccionado(null);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchRegistros();
+        setRegistros(data);
+      } catch (error) {
+        console.error('Error al obtener los registros:', error);
+      }
     };
 
-    const editarRegistro = (registro) => {
-      setRegistroSeleccionado(registro);
-      setProducto(registro.id_producto);
-      setNombre(registro.nombre_p);
-      setReferencia(registro.referencia_p);
-      setValor(registro.valor_p);
-      setMesConsumo(registro.mes_De_Consumo);
-      setFecha(registro.fecha_p);
-      setMostrarModal(true);
-    };
+    fetchData();
+  }, []);
 
-    const cerrarModal = () => {
-      setMostrarModal(true);
-      setRegistroSeleccionado(null);
-    };
+  const registrosOrdenados = [...registros].sort((a, b) => a.id_producto - b.id_producto);
 
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const data = await fetchRegistros();
-          setRegistros(data);
-        } catch (error) {
-          console.error('Error al obtener los registros:', error);
-        }
-      };
+  return (
+    <div id="root">
+      <div>
+        <a href="" target="_blank" rel="noopener noreferrer">
+          <img src="public/logo.png" className="logo react" alt="React logo" />
+        </a>
+      </div>
 
-      fetchData();
-    }, []);
-
-    const registrosOrdenados = [...registros].sort((a, b) => a.id_producto - b.id_producto);
-
-    return (
-      <div id="root">
-        <div>
-          <a href="" target="_blank" rel="noopener noreferrer">
-            <img src="public/logo.png" className="logo react" alt="React logo" />
-          </a>
-        </div>
-
-        <h1>REGISTRO DE VISITANTE</h1>
-        <br />
-        <br />
-        <div className="container">
-          <div className='container2'>
-            <div className="registro">
-              <label htmlFor="cedula" className="labelCedula">ID: </label>
-              <input className="inputCedula" type="number" id="cedula" value={id_producto} onChange={handleChange1} />
-              {errors.id_producto && <p className="error">{errors.id_producto}</p>}
-            </div>
-
-            <div className="registro">
-              <label htmlFor="placa" className='LabelNombre'>NOMBRE: </label>
-              <input className='inputNombre' type="text" id="nombre" value={nombre_p} onChange={handleChange2} />
-              {errors.nombre_p && <p className="error">{errors.nombre_p}</p>}
-            </div>
-
-            <div className="registro">
-              <label htmlFor="marca" className='labelMarca'>MARCA:</label>
-              <input className='inputMarca' type="text" id="marca" value={referencia_p} onChange={handleChange3} />
-              {errors.referencia_p && <p className="error">{errors.referencia_p}</p>}
-            </div>
-
-            <div className="registro">
-              <label htmlFor="marca" className='labelValor'>VALOR:</label>
-              <input className='inputValor' type="number" id="valor" value={valor_p} onChange={handleChange4} />
-              {errors.valor_p && <p className="error">{errors.valor_p}</p>}
-            </div>
-
-            <div className="registro">
-              <label htmlFor="marca" className='labelMes'>MES:</label>
-              <input className='inputMes' type="text" id="mes" value={mes_De_Consumo} onChange={handleChange5} />
-              {errors.mes_De_Consumo && <p className="error">{errors.mes_De_Consumo}</p>}
-            </div>
-
-            <div className="registro">
-              <label htmlFor="marca" className='labelFecha'>FECHA:</label>
-              <input className='inputFecha' type="datetime-local" id="fecha" value={fecha_p} onChange={handleChange6} />
-              {errors.fecha_p && <p className="error">{errors.fecha_p}</p>}
-            </div>
+      <h1>REGISTRO DE VISITANTE</h1>
+      <br />
+      <br />
+      <div className="container">
+        <div className='container2'>
+          <div className="registro">
+            <label htmlFor="cedula" className="labelCedula">ID: </label>
+            <input className="inputCedula" type="number" id="cedula" value={id_producto} onChange={handleChange1} />
+            {errors.id_producto && <p className="error">{errors.id_producto}</p>}
           </div>
 
-          <br />
+          <div className="registro">
+            <label htmlFor="placa" className='LabelNombre'>NOMBRE: </label>
+            <input className='inputNombre' type="text" id="nombre" value={nombre_p} onChange={handleChange2} />
+            {errors.nombre_p && <p className="error">{errors.nombre_p}</p>}
+          </div>
 
-          <div className="card">
-            <button type="button" onClick={handleClick}>CONSULTAR</button>
-            <button type="button" onClick={handleClickRegistrar}>REGISTRAR</button>
-            <button type="button" onClick={handleClickActualizar}>ACTUALIZAR</button>
+          <div className="registro">
+            <label htmlFor="marca" className='labelMarca'>MARCA:</label>
+            <input className='inputMarca' type="text" id="marca" value={referencia_p} onChange={handleChange3} />
+            {errors.referencia_p && <p className="error">{errors.referencia_p}</p>}
+          </div>
+
+          <div className="registro">
+            <label htmlFor="marca" className='labelValor'>VALOR:</label>
+            <input className='inputValor' type="number" id="valor" value={valor_p} onChange={handleChange4} />
+            {errors.valor_p && <p className="error">{errors.valor_p}</p>}
+          </div>
+
+          <div className="registro">
+            <label htmlFor="marca" className='labelMes'>MES:</label>
+            <input className='inputMes' type="text" id="mes" value={mes_De_Consumo} onChange={handleChange5} />
+            {errors.mes_De_Consumo && <p className="error">{errors.mes_De_Consumo}</p>}
+          </div>
+
+          <div className="registro">
+            <label htmlFor="marca" className='labelFecha'>FECHA:</label>
+            <input className='inputFecha' type="datetime-local" id="fecha" value={fecha_p} onChange={handleChange6} />
+            {errors.fecha_p && <p className="error">{errors.fecha_p}</p>}
           </div>
         </div>
 
-        {mostrarTabla && (
-          <table>
+        <br />
+
+        <div className="card">
+          <button type="button" onClick={handleClick}>CONSULTAR</button>
+          <button type="button" onClick={handleClickRegistrar}>REGISTRAR</button>
+          <button type="button" onClick={handleClickActualizar}>ACTUALIZAR</button>
+        </div>
+      </div>
+
+      {mostrarTabla && (
+        <div className='tabla-container'>
+          <table className="tabla-registros">
             <thead>
               <tr>
                 <th> </th>
-                <th>Cod</th>
-                <th>Nombre</th>
-                <th>Referencia</th>
-                <th>Valor $</th>
-                <th>Mes de Consumo</th>
-                <th>Fecha</th>
+                <th>COD</th>
+                <th>NOMBRE</th>
+                <th>REFERENCIA</th>
+                <th>VALOR $</th>
+                <th>MES DE CONSUMO</th>
+                <th>FECHAS</th>
               </tr>
             </thead>
 
@@ -285,9 +286,10 @@ function App() {
               ))}
             </tbody>
           </table>
+          </div>
         )}
-      </div >
-    );
-  }
-
-  export default App;
+        </div >
+      );
+    }
+      
+      export default App;

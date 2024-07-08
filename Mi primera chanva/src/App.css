@@ -114,3 +114,37 @@ tr:nth-child(even) {
   cursor: pointer;
   color: rgb(109, 194, 88);
 }
+
+/* En tu archivo CSS */
+.tabla-container {
+  max-height: 400px; /* Altura máxima de la tabla */
+  overflow-y: auto; /* Scroll vertical si es necesario */
+}
+
+.tabla-registros {
+  width: 100%; /* Ancho completo de la tabla */
+  border-collapse: collapse; /* Colapsar bordes de celda */
+}
+
+.tabla-registros th,
+.tabla-registros td {
+  border: 1px solid #dddddd; /* Borde de celda */
+  text-align: left; /* Alineación de texto */
+  padding: 8px; /* Espaciado interno de celda */
+}
+
+.tabla-registros th {
+  background-color: #f2f2f2; /* Color de fondo del encabezado */
+}
+
+.tabla-registros tbody tr:nth-child(even) {
+  background-color: #f2f2f2; /* Color de fondo de filas pares */
+}
+
+.tabla-registros tbody tr:hover {
+  background-color: #ddd; /* Color de fondo al pasar el mouse */
+}
+
+.icono {
+  cursor: pointer; /* Cambiar cursor a pointer en los iconos */
+}
