@@ -6,10 +6,13 @@ body {
 }
 
 #root {
+  display: flex;
+  flex-direction: column;
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  min-height: 100vh;
 }
 
 .logo {
@@ -43,23 +46,30 @@ label {
   color: #8d8888;
 }
 
-
 .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
 }
 
 .container2 {
   display: grid;
-  grid-template-columns: auto 1fr; /* Define dos columnas, una para etiquetas y otra para inputs */
-  gap: 15px; /* Espacio entre las filas */
-  align-items: center; /* Alinea verticalmente los elementos */
+  grid-template-columns: auto 1fr;
+  /* Define dos columnas, una para etiquetas y otra para inputs */
+  gap: 15px;
+  /* Espacio entre las filas */
+  align-items: center;
+  /* Alinea verticalmente los elementos */
 }
 
 .container2 label {
-  justify-self: start; /* Alinea las etiquetas a la derecha de la columna */
+  justify-self: start;
+  /* Alinea las etiquetas a la derecha de la columna */
   font-size: 2em;
   font-weight: bold;
 }
+
 .inputCedula,
 .inputNombre,
 .inputMarca,
@@ -68,7 +78,8 @@ label {
 .inputFecha {
   font-size: 2em;
   font-weight: bold;
-  width: 100%; /* Asegura que los inputs ocupen todo el espacio disponible en la columna */
+  width: 100%;
+  /* Asegura que los inputs ocupen todo el espacio disponible en la columna */
 }
 
 
@@ -76,6 +87,7 @@ label {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -83,7 +95,8 @@ label {
 
 @media (prefers-reduced-motion: no-preference) {
   .logo.react {
-    animation: logo-spin infinite 0s linear; /* Ajusta el tiempo de animación según sea necesario */
+    animation: logo-spin infinite 0s linear;
+    /* Ajusta el tiempo de animación según sea necesario */
   }
 }
 
@@ -93,10 +106,11 @@ label {
 table {
   width: 100%;
   margin-top: 30px;
-  
+
 }
 
-th, td {
+th,
+td {
   text-align: center;
   padding: 5px;
   border: 1px solid black;
@@ -107,52 +121,97 @@ th {
 }
 
 tr:nth-child(even) {
-  background-color:white;
+  background-color: white;
 }
 
-.edit-icon{
+.edit-icon {
   cursor: pointer;
   color: rgb(109, 194, 88);
 }
 
-/* En tu archivo CSS */
 .tabla-container {
-  max-height: 400px; /* Altura máxima de la tabla */
+  max-height: 400px;/* Altura máxima de la tabla */
   overflow-y: auto; /* Scroll vertical si es necesario */
+  max-width: 100%;
 }
 
 .tabla-registros {
-  width: 100%; /* Ancho completo de la tabla */
-  border-collapse: collapse; /* Colapsar bordes de celda */
+  width: 100%;
+  /* Ancho completo de la tabla */
+  border-collapse: collapse;
+  /* Colapsar bordes de celda */
 }
 
 .tabla-registros th,
 .tabla-registros td {
-  border: 1px solid #dddddd; /* Borde de celda */
-  text-align: left; /* Alineación de texto */
-  padding: 8px; /* Espaciado interno de celda */
+  border: 1px solid #dddddd;
+  /* Borde de celda */
+  text-align: left;
+  /* Alineación de texto */
+  padding: 8px;
+  /* Espaciado interno de celda */
 }
 
 .tabla-registros th {
-  background-color: #f2f2f2; /* Color de fondo del encabezado */
+  background-color: #f2f2f2;
+  /* Color de fondo del encabezado */
 }
 
 .tabla-registros tbody tr:nth-child(even) {
-  background-color: #f2f2f2; /* Color de fondo de filas pares */
+  background-color: #f2f2f2;
+  /* Color de fondo de filas pares */
 }
 
 .tabla-registros tbody tr:hover {
-  background-color: #ddd; /* Color de fondo al pasar el mouse */
+  background-color: #ddd;
+  /* Color de fondo al pasar el mouse */
 }
 
 .icono {
-  cursor: pointer; /* Cambiar cursor a pointer en los iconos */
+  cursor: pointer;
+  /* Cambiar cursor a pointer en los iconos */
 }
+
 .excel-icon {
-  font-size: 50px; /* Tamaño del icono */
-  color: green; /* Color del icono */
-  cursor: pointer; /* Cambiar el cursor a pointer */
-  margin-bottom: 30px; /* Margen inferior */
+  font-size: 50px;
+  /* Tamaño del icono */
+  color: green;
+  /* Color del icono */
+  cursor: pointer;
+  /* Cambiar el cursor a pointer */
+  margin-bottom: 30px;
+  /* Margen inferior */
   margin-left: 90%;
 }
 
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  background-color: #4e4b58;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 20px 0;
+}
+
+.sidebar ul li a {
+  color: #ecf0f1;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.sidebar ul li a:hover {
+  color: #1abc9c;
+}

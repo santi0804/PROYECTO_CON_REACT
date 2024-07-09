@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaEdit, FaFileExcel } from 'react-icons/fa';
+import { FaEdit, FaFileExcel } from 'react-icons/fa';  // librerias de react par los iconos
 import * as XLSX from 'xlsx';
 import { obtenerConsulta, ObtenerRegistros, fetchRegistros, actualizarDatos } from './api/api';
 import Swal from 'sweetalert2';
@@ -207,8 +207,17 @@ function App() {
   const registrosOrdenados = [...registros].sort((a, b) => a.id_producto - b.id_producto);
 
   return (
+
     <div id="root">
-      <div>
+      <div className='sidebar'>
+        <ul>
+          <li><a href="#Inicio">INICIO</a></li>       
+          <li><a href="#registrar">REGISTRARCE</a></li>       
+          <li><a href="#login">LOGIN</a></li>             
+        </ul>
+      </div>
+
+        <div className='main-content'>
         <a href="" target="_blank" rel="noopener noreferrer">
           <img src="public/logo.png" className="logo react" alt="React logo" />
         </a>
