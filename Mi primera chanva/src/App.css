@@ -148,3 +148,11 @@ tr:nth-child(even) {
 .icono {
   cursor: pointer; /* Cambiar cursor a pointer en los iconos */
 }
+.excel-icon {
+  font-size: 50px; /* Tamaño del icono */
+  color: green; /* Color del icono */
+  cursor: pointer; /* Cambiar el cursor a pointer */
+  margin-bottom: 30px; /* Margen inferior */
+  margin-left: 90%;
+}
+

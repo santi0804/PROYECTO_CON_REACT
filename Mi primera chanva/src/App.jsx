@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaFileExcel } from 'react-icons/fa';
+import * as XLSX from 'xlsx';
 import { obtenerConsulta, ObtenerRegistros, fetchRegistros, actualizarDatos } from './api/api';
 import Swal from 'sweetalert2';
 import './App.css';
@@ -16,7 +17,6 @@ function App() {
   const [errors, setErrors] = useState({});
   const [mostrarModal, setMostrarModal] = useState(false);
   const [registroSeleccionado, setRegistroSeleccionado] = useState(null);
-
 
   const handleChange1 = (event) => {
     setProducto(event.target.value);
@@ -194,6 +194,16 @@ function App() {
     fetchData();
   }, []);
 
+
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(registrosOrdenados);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Registros");
+
+    // Generar el archivo Excel
+    XLSX.writeFile(workbook, "Registros.xlsx");
+  };
+
   const registrosOrdenados = [...registros].sort((a, b) => a.id_producto - b.id_producto);
 
   return (
@@ -255,8 +265,13 @@ function App() {
         </div>
       </div>
 
-      {mostrarTabla && (
-        <div className='tabla-container'>
+
+
+      {mostrarTabla && registrosOrdenados.length > 0 && (
+        <FaFileExcel className="excel-icon" onClick={exportToExcel}/>
+      )}
+      <div className='tabla-container'>
+        {mostrarTabla && (
           <table className="tabla-registros">
             <thead>
               <tr>
@@ -286,10 +301,9 @@ function App() {
               ))}
             </tbody>
           </table>
-          </div>
         )}
-        </div >
-      );
-    }
-      
-      export default App;
+      </div>
+    </div>
+  );
+}
+export default App;
