@@ -260,7 +260,7 @@ function App() {
 
           <div className="registro">
             <label htmlFor="marca" className='labelFecha'>FECHA:</label>
-            <input className='inputFecha' type="datetime-local" id="fecha" value={fecha_p} onChange={handleChange6} />
+            <input className='inputFecha' type="date" id="fecha" value={fecha_p} onChange={handleChange6} />
             {errors.fecha_p && <p className="error">{errors.fecha_p}</p>}
           </div>
         </div>

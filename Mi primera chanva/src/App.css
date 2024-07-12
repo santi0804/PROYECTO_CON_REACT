@@ -2,7 +2,8 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  font-family: Arial, sans-serif;
+
 }
 
 #root {
@@ -10,13 +11,14 @@ body {
   flex-direction: column;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
   text-align: center;
   min-height: 100vh;
 }
 
-.logo {
-  height: 10em;
+.logo {    /* Desde aqui movilizo el Logo*/
+  margin-right: 4vw;
+  height: 160px;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
@@ -49,23 +51,20 @@ label {
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   padding: 20px;
 }
 
 .container2 {
   display: grid;
-  grid-template-columns: auto 1fr;
-  /* Define dos columnas, una para etiquetas y otra para inputs */
-  gap: 15px;
-  /* Espacio entre las filas */
-  align-items: center;
-  /* Alinea verticalmente los elementos */
+  grid-template-columns: auto 1fr;  /* Define dos columnas, una para etiquetas y otra para inputs */
+  gap: 15px;   /* Espacio entre las filas */
+  align-items: center;   /* Alinea verticalmente los elementos */
+  margin-right: 10%;
 }
 
 .container2 label {
-  justify-self: start;
-  /* Alinea las etiquetas a la derecha de la columna */
+  justify-self: start;/* Alinea las etiquetas a la derecha de la columna */
   font-size: 2em;
   font-weight: bold;
 }
@@ -78,8 +77,7 @@ label {
 .inputFecha {
   font-size: 2em;
   font-weight: bold;
-  width: 100%;
-  /* Asegura que los inputs ocupen todo el espacio disponible en la columna */
+  width: 100%;     /* Asegura que los inputs ocupen todo el espacio disponible en la columna */
 }
 
 
@@ -136,20 +134,15 @@ tr:nth-child(even) {
 }
 
 .tabla-registros {
-  width: 100%;
-  /* Ancho completo de la tabla */
-  border-collapse: collapse;
-  /* Colapsar bordes de celda */
+  width: 100%;  /* Ancho completo de la tabla */
+  border-collapse: collapse;  /* Colapsar bordes de celda */
 }
 
 .tabla-registros th,
 .tabla-registros td {
-  border: 1px solid #dddddd;
-  /* Borde de celda */
-  text-align: left;
-  /* Alineación de texto */
-  padding: 8px;
-  /* Espaciado interno de celda */
+  border: 1px solid #dddddd;   /* Borde de celda */
+  text-align: left;   /* Alineación de texto */
+  padding: 8px;   /* Espaciado interno de celda */
 }
 
 .tabla-registros th {
@@ -168,19 +161,14 @@ tr:nth-child(even) {
 }
 
 .icono {
-  cursor: pointer;
-  /* Cambiar cursor a pointer en los iconos */
+  cursor: pointer;  /* Cambiar cursor a pointer en los iconos */
 }
 
 .excel-icon {
   font-size: 50px;
-  /* Tamaño del icono */
   color: green;
-  /* Color del icono */
   cursor: pointer;
-  /* Cambiar el cursor a pointer */
   margin-bottom: 30px;
-  /* Margen inferior */
   margin-left: 90%;
 }
 
@@ -188,7 +176,7 @@ tr:nth-child(even) {
   display: flex;
   flex-direction: column;
   width: 200px;
-  background-color: #4e4b58;
+  background-color: #839191e5;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   position: fixed;
@@ -207,9 +195,9 @@ tr:nth-child(even) {
 }
 
 .sidebar ul li a {
-  color: #ecf0f1;
+  color: white;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .sidebar ul li a:hover {

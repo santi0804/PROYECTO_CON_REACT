@@ -32,8 +32,9 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 3em;  /* con la medida em, se vuelve responsi, para que se adapte las leras a las medidas de la pantalla*/
   line-height: 1.1;
+  margin-right: 10%;
 }
 
 button {
