@@ -23,10 +23,10 @@ export async function obtenerConsulta() {
 }
 
 // Boton Endpoint registrar
-export async function ObtenerRegistros(id_producto, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo) {
+export async function ObtenerRegistros(cedula_p, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo) {
   const url = 'http://localhost:8080/rutageneral/registro';
   const data = {
-    id_producto,
+    cedula_p,
     nombre_p,
     referencia_p,
     valor_p,
@@ -79,9 +79,10 @@ export async function fetchRegistros() {
 }
 
 // Boton Endpoint/ para actualizar datos de la tabla
-export async function actualizarDatos(id_producto, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo) {
+export async function actualizarDatos(id_producto, cedula_p, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo) {
   const url = `http://localhost:8080/rutageneral/${id_producto}`;
   const data = {
+    cedula_p,
     nombre_p,
     referencia_p,
     valor_p,

@@ -5,8 +5,10 @@ import { obtenerConsulta, ObtenerRegistros, fetchRegistros, actualizarDatos } fr
 import Swal from 'sweetalert2';
 import './App.css';
 
-function App() {
-  const [id_producto, setProducto] = useState('');
+function App() {    //Declaración del Componente App:
+
+  //Estados
+  const [cedula_p, setCedula] = useState('');
   const [nombre_p, setNombre] = useState('');
   const [referencia_p, setReferencia] = useState('');
   const [valor_p, setValor] = useState('');
@@ -18,41 +20,30 @@ function App() {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [registroSeleccionado, setRegistroSeleccionado] = useState(null);
 
-  const handleChange1 = (event) => {
-    setProducto(event.target.value);
-    setErrors((prevErrors) => ({ ...prevErrors, id_producto: '' }));
-  };
 
-  const handleChange2 = (event) => {
-    setNombre(event.target.value);
-    setErrors((prevErrors) => ({ ...prevErrors, nombre_p: '' }));
-  };
+  //Manejador de cambios en los campos de entrada
 
-  const handleChange3 = (event) => {
-    setReferencia(event.target.value);
-    setErrors((prevErrors) => ({ ...prevErrors, referencia_p: '' }));
-  };
+  const handleChange1 = (event) => { setCedula(event.target.value); setErrors((prevErrors) => ({ ...prevErrors, cedula_p: '' })); };
 
-  const handleChange4 = (event) => {
-    setValor(event.target.value);
-    setErrors((prevErrors) => ({ ...prevErrors, valor_p: '' }));
-  };
+  const handleChange2 = (event) => { setNombre(event.target.value); setErrors((prevErrors) => ({ ...prevErrors, nombre_p: '' })); };
 
-  const handleChange5 = (event) => {
-    setMesConsumo(event.target.value);
-    setErrors((prevErrors) => ({ ...prevErrors, mes_De_Consumo: '' }));
-  };
+  const handleChange3 = (event) => { setReferencia(event.target.value); setErrors((prevErrors) => ({ ...prevErrors, referencia_p: '' })); };
 
-  const handleChange6 = (event) => {
-    setFecha(event.target.value);
-    setErrors((prevErrors) => ({ ...prevErrors, fecha_p: '' }));
-  };
+  const handleChange4 = (event) => { setValor(event.target.value); setErrors((prevErrors) => ({ ...prevErrors, valor_p: '' })); };
+
+  const handleChange5 = (event) => { setMesConsumo(event.target.value); setErrors((prevErrors) => ({ ...prevErrors, mes_De_Consumo: '' })); };
+
+  const handleChange6 = (event) => { setFecha(event.target.value); setErrors((prevErrors) => ({ ...prevErrors, fecha_p: '' })); };
+
+
+
+  // Validación del formulario
 
   const validarFormato = () => {
     let formErrors = {};
-    if (!id_producto) formErrors.id_producto = "ID es obligatorio";
+    if (!cedula_p) formErrors.cedula_p = "Cedula es obligatorio";
     if (!nombre_p) formErrors.nombre_p = "Campo obligatorio";
-    if (!referencia_p) formErrors.referencia_p = "Campo obligatoria";
+    if (!referencia_p) formErrors.referencia_p = "Campo obligatorio";
     if (!valor_p) formErrors.valor_p = "Campo obligatorio";
     if (!mes_De_Consumo) formErrors.mes_De_Consumo = "Campo obligatorio";
     if (!fecha_p) formErrors.fecha_p = "Campo obligatoria";
@@ -69,6 +60,9 @@ function App() {
     return Object.keys(formErrors).length === 0;
   };
 
+
+  //Consulta de registros
+
   const handleClick = async () => {
     try {
       const data = await obtenerConsulta();
@@ -80,25 +74,31 @@ function App() {
     }
   };
 
+
+  //registro de nuevos datos
+
   const handleClickRegistrar = async () => {
     if (validarFormato()) {
       try {
-        // Buscar si ya existe un registro con el mismo ID
-        const existeId = registros.find(registro => registro.id_producto === id_producto);
 
-        if (existeId) {
+        // Convertir la cédula a un formato común para la comparación, en caso de espacios o formatos diferentes
+        const cedulaNormalizada = cedula_p.trim();
+
+        // Buscar si ya existe un registro con la misma cedula
+        const existeCedula = registros.some(registro => registro.cedula_p.trim() === cedulaNormalizada);
+
+        if (existeCedula) {
           Swal.fire({
             icon: 'error',
-            title: 'ID Duplicado',
-            text: 'El ID ya existe, por favor elija otro.',
+            title: 'Cédula Duplicada',
+            text: 'Cedula ya existe, por favor elija otro.',
           });
-          return;
+          return;   // Salir de la función si la cédula ya existe
         }
 
         // Si no existe el ID, continuar con el autoincremento actual
-        let nextId = registros.length > 0 ? Math.max(...registros.map(registro => registro.id_producto)) + 1 : 1;
 
-        await ObtenerRegistros(nextId, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo);
+        await ObtenerRegistros(cedula_p, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo);
         const updatedRegistros = await fetchRegistros();
         setRegistros(updatedRegistros);
 
@@ -119,13 +119,15 @@ function App() {
     }
   };
 
+  // Actualización de datos
 
   const handleClickActualizar = async () => {
     if (validarFormato()) {
+      console.log("Ingreso..")
       try {
 
         // Validar que el ID exista en los registros actuales
-        const existeId = registros.find(registro => registro.id_producto === id_producto);
+        const existeId = registros.find(registro => registro.cedula_p === cedula_p);
 
         if (!existeId) {
           Swal.fire({
@@ -138,7 +140,7 @@ function App() {
 
         // Realizar la actualización
 
-        await actualizarDatos(id_producto, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo);
+        await actualizarDatos(id_producto, cedula_p, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo);
         const updatedRegistros = await fetchRegistros();
         setRegistros(updatedRegistros);
 
@@ -165,9 +167,11 @@ function App() {
 
   };
 
+  //Editar Icono 
+
   const editarRegistro = (registro) => {
     setRegistroSeleccionado(registro);
-    setProducto(registro.id_producto);
+    setCedula(registro.cedula_p);
     setNombre(registro.nombre_p);
     setReferencia(registro.referencia_p);
     setValor(registro.valor_p);
@@ -195,14 +199,16 @@ function App() {
   }, []);
 
 
+  // Exportar datos a Excel
+
   const exportToExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(registrosOrdenados);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Registros");
-
     // Generar el archivo Excel
     XLSX.writeFile(workbook, "Registros.xlsx");
   };
+
 
   const registrosOrdenados = [...registros].sort((a, b) => a.id_producto - b.id_producto);
 
@@ -211,13 +217,13 @@ function App() {
     <div id="root">
       <div className='sidebar'>
         <ul>
-          <li><a href="#Inicio">INICIO</a></li>       
-          <li><a href="#registrar">REGISTRARCE</a></li>       
-          <li><a href="#login">LOGIN</a></li>             
+          <li><a href="#Inicio">INICIO</a></li>
+          <li><a href="#registrar">REGISTRARCE</a></li>
+          <li><a href="#login">LOGIN</a></li>
         </ul>
       </div>
 
-        <div className='main-content'>
+      <div className='main-content'>
         <a href="" target="_blank" rel="noopener noreferrer">
           <img src="public/logo.png" className="logo react" alt="React logo" />
         </a>
@@ -229,9 +235,9 @@ function App() {
       <div className="container">
         <div className='container2'>
           <div className="registro">
-            <label htmlFor="cedula" className="labelCedula">ID: </label>
-            <input className="inputCedula" type="number" id="cedula" value={id_producto} onChange={handleChange1} />
-            {errors.id_producto && <p className="error">{errors.id_producto}</p>}
+            <label htmlFor="cedula" className="labelCedula">CEDULA: </label>
+            <input className="inputCedula" type="number" id="cedula" value={cedula_p} onChange={handleChange1} />
+            {errors.cedula_p && <p className="error">{errors.cedula_p}</p>}
           </div>
 
           <div className="registro">
@@ -277,7 +283,7 @@ function App() {
 
 
       {mostrarTabla && registrosOrdenados.length > 0 && (
-        <FaFileExcel className="excel-icon" onClick={exportToExcel}/>
+        <FaFileExcel className="excel-icon" onClick={exportToExcel} />
       )}
       <div className='tabla-container'>
         {mostrarTabla && (
@@ -285,7 +291,7 @@ function App() {
             <thead>
               <tr>
                 <th> </th>
-                <th>COD</th>
+                <th>CEDULA</th>
                 <th>NOMBRE</th>
                 <th>REFERENCIA</th>
                 <th>VALOR $</th>
@@ -300,7 +306,7 @@ function App() {
                   <td>
                     <FaEdit className="edit-icon" onClick={() => editarRegistro(registro)} />
                   </td>
-                  <td>{registro.id_producto}</td>
+                  <td>{registro.cedula_p}</td>
                   <td>{registro.nombre_p}</td>
                   <td>{registro.referencia_p}</td>
                   <td>{registro.valor_p}</td>
