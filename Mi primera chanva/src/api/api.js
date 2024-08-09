@@ -79,7 +79,8 @@ export async function fetchRegistros() {
 }
 
 // Boton Endpoint/ para actualizar datos de la tabla
-export async function actualizarDatos(cedula_p, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo) {
+export async function actualizarDatos(id_producto, cedula_p, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo) {
+  console.log(id_producto)
   const url = `http://localhost:8080/rutageneral/${id_producto}`;
   const data = {
     cedula_p,
@@ -92,7 +93,7 @@ export async function actualizarDatos(cedula_p, nombre_p, referencia_p, valor_p,
 
   try {
     const response = await fetch(url, {
-      method: 'PUT',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },

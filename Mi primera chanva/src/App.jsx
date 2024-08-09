@@ -5,6 +5,14 @@ import { obtenerConsulta, ObtenerRegistros, fetchRegistros, actualizarDatos } fr
 import Swal from 'sweetalert2';
 import './App.css';
 
+const formatDate = (isoString) => {   // funcion para dar formato a la fecha
+  const date = new Date(isoString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 function App() {    //Declaración del Componente App:
 
   //Estados
@@ -46,7 +54,7 @@ function App() {    //Declaración del Componente App:
     if (!referencia_p) formErrors.referencia_p = "Campo obligatorio";
     if (!valor_p) formErrors.valor_p = "Campo obligatorio";
     if (!mes_De_Consumo) formErrors.mes_De_Consumo = "Campo obligatorio";
-    if (!fecha_p) formErrors.fecha_p = "Campo obligatoria";
+    if (!fecha_p) formatDate.fecha_p = "Campo obligatoria";
     setErrors(formErrors);
 
     if (Object.keys(formErrors).length > 0) {
@@ -78,110 +86,134 @@ function App() {    //Declaración del Componente App:
   //registro de nuevos datoss
 
   // Función para registrar nuevos datos
-const handleClickRegistrar = async () => {
-  if (validarFormato()) { // Validar el formulario antes de registrar
+  const handleClickRegistrar = async () => {
+    if (validarFormato()) { // Validar el formulario antes de registrar
       try {
-          // Crear un nuevo objeto de registro
-          const nuevoRegistro = {
-              cedula_p: cedula_p.trim(),
-              nombre_p: nombre_p.trim(),
-              referencia_p: referencia_p.trim(),
-              valor_p: parseFloat(valor_p),
-              mes_De_Consumo: mes_De_Consumo.trim(),
-              fecha_p: fecha_p
-          };
+        // Crear un nuevo objeto de registro
+        const nuevoRegistro = {
+          cedula_p: cedula_p.trim(),
+          nombre_p: nombre_p.trim(),
+          referencia_p: referencia_p.trim(),
+          valor_p: parseFloat(valor_p),
+          mes_De_Consumo: mes_De_Consumo.trim(),
+          fecha_p: fecha_p
+        };
 
-          // Enviar el registro a la API
-          await fetch('http://localhost:8080/rutageneral/registro', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(nuevoRegistro)
-          });
+        // Enviar el registro a la API
+        await fetch('http://localhost:8080/rutageneral/registro', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(nuevoRegistro)
+        });
 
-          // Obtener los registros actualizados
-          const updatedRegistros = await fetchRegistros();
-          setRegistros(updatedRegistros);
-
-          // Limpiar el formulario después de un registro exitoso
-          setCedula('');
-          setNombre('');
-          setReferencia('');
-          setValor('');
-          setMesConsumo('');
-          setFecha('');
-
-          Swal.fire({
-              icon: 'success',
-              title: 'Registro Exitoso',
-              text: 'El registro se ha realizado con éxito.',
-          });
-      } catch (error) {
-          console.error('Error al registrar', error);
-          Swal.fire({
-              icon: 'error',
-              title: 'Error al Registrar',
-              text: 'Hubo un problema al registrar los datos.',
-          });
-      }
-  } else {
-      Swal.fire({
-          icon: 'error',
-          title: 'Campos Obligatorios',
-          text: 'Complete todos los campos obligatorios para registrar el formulario.',
-      });
-  }
-};
-
-
-
-  // Actualización de datos
-
-  const handleClickActualizar = async () => {
-    if (validarFormato()) {
-      console.log("Ingreso..")
-      try {
-
-        // Validar que el ID exista en los registros actuales
-        const existeId = registros.find(registro => registro.cedula_p === cedula_p);
-
-        if (!existeId) {
-          Swal.fire({
-            icon: 'error',
-            title: 'ID no encontrado',
-            text: 'El ID que intenta actualizar no existe.',
-          });
-          return;
-        }
-
-        // Realizar la actualización
-
-        await actualizarDatos(id_producto, cedula_p, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo);
+        // Obtener los registros actualizados
         const updatedRegistros = await fetchRegistros();
         setRegistros(updatedRegistros);
 
+        // Limpiar el formulario después de un registro exitoso
+        setCedula('');
+        setNombre('');
+        setReferencia('');
+        setValor('');
+        setMesConsumo('');
+        setFecha('');
+
         Swal.fire({
           icon: 'success',
-          title: 'Actualización Exitosa',
-          text: 'Actualización con éxito',
+          title: 'Registro Exitoso',
+          text: 'El registro se ha realizado con éxito.',
         });
       } catch (error) {
-        console.log('Error al actualizar', error);
+        console.error('Error al registrar', error);
         Swal.fire({
           icon: 'error',
-          title: 'Error al Actualizar',
-          text: 'problema al actualizar',
+          title: 'Error al Registrar',
+          text: 'Hubo un problema al registrar los datos.',
         });
       }
     } else {
       Swal.fire({
         icon: 'error',
         title: 'Campos Obligatorios',
-        text: 'Complete todos los campos obligatorios para actualizar el registro.',
+        text: 'Complete todos los campos obligatorios para registrar el formulario.',
       });
     }
+  };
 
+
+
+  // Actualización de datos
+
+  const handleClickActualizar = async () => {
+    console.log(registroSeleccionado.id_producto);
+
+    if (validarFormato()) {
+      try {
+
+        //Verifiar si la cédula que intenta actualizar ya existe en otro registro
+        const registroExistente = registros.find(registro => registro.cedula_p === cedula_p && registro.id_producto !== registroSeleccionado.id_producto
+        );
+
+        // Si se encuentra un registro con las misma cédula y no es el mismo que se esta editando, muestra error.
+        if (registroExistente) {
+          Swal.fire({
+            icon: 'error',
+            title: 'cedula duplicada',
+            text: 'Ya existe un registro con esta cédula.',
+          });
+          return;
+        }
+
+        // Realizar la actualización en el registro seleccionado
+        if (registroSeleccionado) {
+          await actualizarDatos(
+            registroSeleccionado.id_producto, // Usar id_producto para identificar el registro
+            cedula_p,  // Cedula congelada, no se actualiza
+            nombre_p,
+            referencia_p,
+            valor_p,
+            fecha_p,
+            mes_De_Consumo
+          );
+
+          // Obtener los registros actualizdos de la API
+          const updatedRegistros = await fetchRegistros();
+          setRegistros(updatedRegistros);
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Actualización Exitosa',
+            text: 'Registro actulizado correctamente.',
+          });
+
+          // Limpiar el estado después de la actualización
+          cerrarModal();
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al actualización',
+            text: 'No se encontro el registro para actualizar',
+          });
+        }
+
+      } catch (error) {
+        console.log('Error al actulizar', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al actualizar',
+          text: 'Problema al actualizar registro.',
+        });
+      }
+
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Campos Obligatorios',
+        text: 'Complete los campos obligatorios...',
+      });
+    }
   };
 
   //Editar Icono 
@@ -193,7 +225,7 @@ const handleClickRegistrar = async () => {
     setReferencia(registro.referencia_p);
     setValor(registro.valor_p);
     setMesConsumo(registro.mes_De_Consumo);
-    setFecha(registro.fecha_p);
+    setFecha(formatDate(registro.fecha_p)); // Formatea la fecha
     setMostrarModal(true);
   };
 
@@ -253,7 +285,7 @@ const handleClickRegistrar = async () => {
         <div className='container2'>
           <div className="registro">
             <label htmlFor="cedula" className="labelCedula">CEDULA: </label>
-            <input className="inputCedula" type="number" id="cedula" value={cedula_p} onChange={handleChange1} />
+            <input className="inputCedula" type="text" id="cedula" value={cedula_p} onChange={handleChange1} />
             {errors.cedula_p && <p className="error">{errors.cedula_p}</p>}
           </div>
 
@@ -282,7 +314,7 @@ const handleClickRegistrar = async () => {
           </div>
 
           <div className="registro">
-            <label htmlFor="marca" className='labelFecha'>FECHA:</label>
+            <label htmlFor="fecha" className='labelFecha'>FECHA:</label>
             <input className='inputFecha' type="date" id="fecha" value={fecha_p} onChange={handleChange6} />
             {errors.fecha_p && <p className="error">{errors.fecha_p}</p>}
           </div>
