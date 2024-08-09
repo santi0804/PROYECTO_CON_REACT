@@ -75,49 +75,66 @@ function App() {    //Declaración del Componente App:
   };
 
 
-  //registro de nuevos datos
+  //registro de nuevos datoss
 
-  const handleClickRegistrar = async () => {
-    if (validarFormato()) {
+  // Función para registrar nuevos datos
+const handleClickRegistrar = async () => {
+  if (validarFormato()) { // Validar el formulario antes de registrar
       try {
+          // Crear un nuevo objeto de registro
+          const nuevoRegistro = {
+              cedula_p: cedula_p.trim(),
+              nombre_p: nombre_p.trim(),
+              referencia_p: referencia_p.trim(),
+              valor_p: parseFloat(valor_p),
+              mes_De_Consumo: mes_De_Consumo.trim(),
+              fecha_p: fecha_p
+          };
 
-        // Convertir la cédula a un formato común para la comparación, en caso de espacios o formatos diferentes
-        const cedulaNormalizada = cedula_p.trim();
-
-        // Buscar si ya existe un registro con la misma cedula
-        const existeCedula = registros.some(registro => registro.cedula_p.trim() === cedulaNormalizada);
-
-        if (existeCedula) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Cédula Duplicada',
-            text: 'Cedula ya existe, por favor elija otro.',
+          // Enviar el registro a la API
+          await fetch('http://localhost:8080/rutageneral/registro', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(nuevoRegistro)
           });
-          return;   // Salir de la función si la cédula ya existe
-        }
 
-        // Si no existe el ID, continuar con el autoincremento actual
+          // Obtener los registros actualizados
+          const updatedRegistros = await fetchRegistros();
+          setRegistros(updatedRegistros);
 
-        await ObtenerRegistros(cedula_p, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo);
-        const updatedRegistros = await fetchRegistros();
-        setRegistros(updatedRegistros);
+          // Limpiar el formulario después de un registro exitoso
+          setCedula('');
+          setNombre('');
+          setReferencia('');
+          setValor('');
+          setMesConsumo('');
+          setFecha('');
 
-        Swal.fire({
-          icon: 'success',
-          title: 'Registro Exitoso',
-          text: 'Registro con éxito',
-        });
-
+          Swal.fire({
+              icon: 'success',
+              title: 'Registro Exitoso',
+              text: 'El registro se ha realizado con éxito.',
+          });
       } catch (error) {
-        console.error('Error al registrar', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error al Registrar',
-          text: 'Problema al registrar',
-        });
+          console.error('Error al registrar', error);
+          Swal.fire({
+              icon: 'error',
+              title: 'Error al Registrar',
+              text: 'Hubo un problema al registrar los datos.',
+          });
       }
-    }
-  };
+  } else {
+      Swal.fire({
+          icon: 'error',
+          title: 'Campos Obligatorios',
+          text: 'Complete todos los campos obligatorios para registrar el formulario.',
+      });
+  }
+};
+
+
 
   // Actualización de datos
 
