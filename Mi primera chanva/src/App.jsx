@@ -185,7 +185,7 @@ function App() {    //Declaración del Componente App:
           Swal.fire({
             icon: 'success',
             title: 'Actualización Exitosa',
-            text: 'Registro actulizado correctamente.',
+            text: 'Registro actualizado correctamente.',
           });
 
           // Limpiar el estado después de la actualización

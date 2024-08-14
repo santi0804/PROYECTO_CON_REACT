@@ -1,6 +1,7 @@
 
 
-// Boton Endpoint Consultar
+// BOTÓN ENDPOINT CONSULTAR
+
 export async function obtenerConsulta() {
   try {
     const response = await fetch("http://localhost:8080/rutageneral/productos", {
@@ -22,7 +23,8 @@ export async function obtenerConsulta() {
   }
 }
 
-// Boton Endpoint registrar
+
+ // BOTÓN  ENDPOINT REGISTRAR
 export async function ObtenerRegistros(cedula_p, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo) {
   const url = 'http://localhost:8080/rutageneral/registro';
   const data = {
@@ -56,7 +58,10 @@ export async function ObtenerRegistros(cedula_p, nombre_p, referencia_p, valor_p
   }
 }
 
-// Boton Endpoint/ consultar tabla
+
+// BOTÓN ENDPOINT - CONSULTAR LA TABLA
+
+
 export async function fetchRegistros() {
   try {
     const response = await fetch("http://localhost:8080/rutageneral/productos", {
@@ -78,7 +83,11 @@ export async function fetchRegistros() {
   }
 }
 
-// Boton Endpoint/ para actualizar datos de la tabla
+
+
+// BOTÓN ENDPOINT PARA ACTUALIZAR LOD DATOS DE LA TABLA
+
+
 export async function actualizarDatos(id_producto, cedula_p, nombre_p, referencia_p, valor_p, fecha_p, mes_De_Consumo) {
   console.log(id_producto)
   const url = `http://localhost:8080/rutageneral/${id_producto}`;
